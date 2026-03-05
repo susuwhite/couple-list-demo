@@ -1,0 +1,89 @@
+version = 1
+
+# ============================================================
+# DeepSource 配置文件
+# 文档: https://docs.deepsource.com/docs/configuration
+# ============================================================
+
+# 排除不需要分析的文件和目录
+exclude_patterns = [
+  "dist/**",
+  "node_modules/**",
+  "coverage/**",
+  "public/**",
+  "**/*.min.js",
+  "**/*.bundle.js",
+]
+
+# 测试文件模式 (DeepSource 会识别为测试代码，分开统计指标)
+test_patterns = [
+  "tests/**",
+  "**/*.spec.js",
+  "**/*.test.js",
+  "__tests__/**",
+]
+
+# ============================================================
+# JavaScript / Vue 分析器
+# 支持: ES6+, Vue SFC, Node.js
+# 可检测: 反模式、Bug风险、安全漏洞、性能问题、样式问题
+# ============================================================
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  # ECMAScript 版本
+  dialect = "es6"
+  # 运行时环境
+  runtime_version = "18.x"
+  # 单行最大长度
+  max_line_length = 120
+  # 依赖文件路径 (用于检测过时/有漏洞的依赖)
+  dependency_file_paths = ["package.json"]
+  # 启用 Vue.js 框架支持
+  plugins = ["vue"]
+  # ESLint 配置文件路径 (DeepSource 会读取 ESLint 规则)
+  eslint_config_file = ".eslintrc.js"
+  # 环境声明
+  environment = ["browser", "es6", "node"]
+
+# ============================================================
+# 测试覆盖率 (Test Coverage)
+# 支持上传 lcov、cobertura、jacoco 等格式
+# 通过 CI 上报后，DeepSource 会展示覆盖率趋势和未覆盖行
+# ============================================================
+[[analyzers]]
+name = "test-coverage"
+enabled = true
+
+  [analyzers.meta]
+  # 上传覆盖率的方式: "repository" 表示通过 CI 工具上报
+  framework = "jest"
+
+# ============================================================
+# Secrets 检测分析器
+# 自动扫描代码中意外提交的敏感信息 (API Key, Token 等)
+# ============================================================
+[[analyzers]]
+name = "secrets"
+enabled = true
+
+# ============================================================
+# Docker 分析器 (如有 Dockerfile 可启用)
+# ============================================================
+# [[analyzers]]
+# name = "docker"
+# enabled = true
+
+# ============================================================
+# 转换器 (Transformers) - DeepSource Autofix
+# 自动修复被检测到的问题，通过 PR 提交修复
+# ============================================================
+[[transformers]]
+name = "prettier"
+enabled = true
+
+[[transformers]]
+name = "eslint"
+enabled = true

@@ -1,0 +1,122 @@
+# ============================================================
+# DeepSource CI 工作流
+# 功能:
+#   1. 代码静态分析 (自动触发, 无需此workflow)
+#   2. 测试覆盖率上报
+#   3. ESLint 检查
+#   4. 构建验证
+# ============================================================
+
+name: DeepSource Analysis
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  # --------------------------------------------------------
+  # Job 1: ESLint 代码质量检查
+  # --------------------------------------------------------
+  lint:
+    name: ESLint Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+  # --------------------------------------------------------
+  # Job 2: 测试 + 覆盖率上报到 DeepSource
+  # --------------------------------------------------------
+  test-coverage:
+    name: Test & Coverage Report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0  # DeepSource 需要完整的 git 历史
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      # DeepSource 覆盖率上报
+      - name: Report test coverage to DeepSource
+        uses: deepsourcelabs/test-coverage-action@master
+        with:
+          key: javascript
+          coverage-file: coverage/lcov.info
+          dsn: ${{ secrets.DEEPSOURCE_DSN }}
+
+  # --------------------------------------------------------
+  # Job 3: 构建验证
+  # --------------------------------------------------------
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+  # --------------------------------------------------------
+  # Job 4: DeepSource CLI 分析 (可选的手动触发方式)
+  # 注意: DeepSource 通常会在代码推送后自动分析
+  # 此 job 用于演示如何手动触发分析
+  # --------------------------------------------------------
+  deepsource-analysis:
+    name: DeepSource Manual Analysis
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install DeepSource CLI
+        run: |
+          curl https://deepsource.io/cli | sh
+
+      - name: Run DeepSource analysis
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
+        run: |
+          ./bin/deepsource report --analyzer test-coverage \
+            --key javascript \
+            --value-file coverage/lcov.info || true
