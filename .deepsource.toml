@@ -7,21 +7,16 @@ version = 1
 
 # 排除不需要分析的文件和目录
 exclude_patterns = [
-  "dist/**",
-  "node_modules/**",
-  "coverage/**",
-  "public/**",
-  "**/*.min.js",
-  "**/*.bundle.js",
+    "dist/**",
+    "node_modules/**",
+    "coverage/**",
+    "public/**",
+    "**/*.min.js",
+    "**/*.bundle.js",
 ]
 
 # 测试文件模式 (DeepSource 会识别为测试代码，分开统计指标)
-test_patterns = [
-  "tests/**",
-  "**/*.spec.js",
-  "**/*.test.js",
-  "__tests__/**",
-]
+test_patterns = ["tests/**", "**/*.spec.js", "**/*.test.js", "__tests__/**"]
 
 # ============================================================
 # JavaScript / Vue 分析器
@@ -32,17 +27,17 @@ test_patterns = [
 name = "javascript"
 enabled = true
 
-  [analyzers.meta]
-  # 单行最大长度
-  max_line_length = 120
-  # 依赖文件路径 (用于检测过时/有漏洞的依赖)
-  dependency_file_paths = ["package.json"]
-  # 启用 Vue.js 框架支持 (可选值: vue, react, ember, meteor, angular)
-  plugins = ["vue"]
-  # 环境声明 (browser / node 等)
-  environment = ["browser", "node"]
-  # 类型方言 (仅在使用 TypeScript 或 Flow 时设置)
-  # dialect = "typescript"
+[analyzers.meta]
+# 单行最大长度
+max_line_length = 120
+# 依赖文件路径 (用于检测过时/有漏洞的依赖)
+dependency_file_paths = ["package.json"]
+# 启用 Vue.js 框架支持 (可选值: vue, react, ember, meteor, angular)
+plugins = ["vue"]
+# 环境声明 (可选值: nodejs, browser, jest, mocha, jasmine, jquery, mongo, cypress, vitest)
+environment = ["browser", "nodejs"]
+# 类型方言 (仅在使用 TypeScript 或 Flow 时设置)
+# dialect = "typescript"
 
 # ============================================================
 # 测试覆盖率 (Test Coverage)
@@ -52,8 +47,8 @@ enabled = true
 [[analyzers]]
 name = "test-coverage"
 enabled = true
-  # test-coverage 分析器无 meta 配置项
-  # 通过 CI 上报 lcov/cobertura 等格式的覆盖率数据即可
+# test-coverage 分析器无 meta 配置项
+# 通过 CI 上报 lcov/cobertura 等格式的覆盖率数据即可
 
 # ============================================================
 # Secrets 检测分析器
