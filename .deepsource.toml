@@ -33,20 +33,16 @@ name = "javascript"
 enabled = true
 
   [analyzers.meta]
-  # ECMAScript 版本
-  dialect = "es6"
-  # 运行时环境
-  runtime_version = "18.x"
   # 单行最大长度
   max_line_length = 120
   # 依赖文件路径 (用于检测过时/有漏洞的依赖)
   dependency_file_paths = ["package.json"]
-  # 启用 Vue.js 框架支持
+  # 启用 Vue.js 框架支持 (可选值: vue, react, ember, meteor, angular)
   plugins = ["vue"]
-  # ESLint 配置文件路径 (DeepSource 会读取 ESLint 规则)
-  eslint_config_file = ".eslintrc.js"
-  # 环境声明
-  environment = ["browser", "es6", "node"]
+  # 环境声明 (browser / node 等)
+  environment = ["browser", "node"]
+  # 类型方言 (仅在使用 TypeScript 或 Flow 时设置)
+  # dialect = "typescript"
 
 # ============================================================
 # 测试覆盖率 (Test Coverage)
@@ -56,10 +52,8 @@ enabled = true
 [[analyzers]]
 name = "test-coverage"
 enabled = true
-
-  [analyzers.meta]
-  # 上传覆盖率的方式: "repository" 表示通过 CI 工具上报
-  framework = "jest"
+  # test-coverage 分析器无 meta 配置项
+  # 通过 CI 上报 lcov/cobertura 等格式的覆盖率数据即可
 
 # ============================================================
 # Secrets 检测分析器
@@ -84,6 +78,5 @@ enabled = true
 name = "prettier"
 enabled = true
 
-[[transformers]]
-name = "eslint"
-enabled = true
+# 注意: DeepSource 的 JS/TS 转换器仅支持 prettier
+# eslint 不是受支持的 transformer，已移除
