@@ -30,10 +30,12 @@ enabled = true
 [analyzers.meta]
 # 依赖文件路径 (用于检测过时/有漏洞的依赖)
 dependency_file_paths = ["package.json"]
+# ESLint 配置文件路径 (DeepSource 会读取规则)
+eslint_config_file = ".eslintrc.js"
 # 启用 Vue.js 框架支持 (可选值: vue, react, ember, meteor, angular)
 plugins = ["vue"]
 # 环境声明 (browser / node 等)
-environment = ["browser", "nodejs"]
+environment = ["browser", "nodejs", "jest"]
 # 类型方言 (仅在使用 TypeScript 或 Flow 时设置)
 # dialect = "typescript"
 
