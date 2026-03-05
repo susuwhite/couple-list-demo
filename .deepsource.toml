@@ -33,8 +33,6 @@ name = "javascript"
 enabled = true
 
   [analyzers.meta]
-  # ECMAScript 版本
-  dialect = "es6"
   # 运行时环境
   runtime_version = "18.x"
   # 单行最大长度
@@ -57,10 +55,6 @@ enabled = true
 name = "test-coverage"
 enabled = true
 
-  [analyzers.meta]
-  # 上传覆盖率的方式: "repository" 表示通过 CI 工具上报
-  framework = "jest"
-
 # ============================================================
 # Secrets 检测分析器
 # 自动扫描代码中意外提交的敏感信息 (API Key, Token 等)
@@ -82,8 +76,4 @@ enabled = true
 # ============================================================
 [[transformers]]
 name = "prettier"
-enabled = true
-
-[[transformers]]
-name = "eslint"
 enabled = true
