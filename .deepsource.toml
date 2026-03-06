@@ -40,15 +40,6 @@ enabled = true
   eslint_config_file = ".eslintrc.js"
   # 环境声明
   environment = ["browser", "es6", "node"]
-[analyzers.meta]
-# 依赖文件路径 (用于检测过时/有漏洞的依赖)
-dependency_file_paths = ["package.json"]
-# 启用 Vue.js 框架支持 (可选值: vue, react, ember, meteor, angular)
-plugins = ["vue"]
-# 环境声明 (browser / node 等)
-environment = ["browser", "nodejs", "jest"]
-# 类型方言 (仅在使用 TypeScript 或 Flow 时设置)
-# dialect = "typescript"
 
 # ============================================================
 # 测试覆盖率 (Test Coverage)
