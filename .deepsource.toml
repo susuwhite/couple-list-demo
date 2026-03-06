@@ -7,21 +7,16 @@ version = 1
 
 # 排除不需要分析的文件和目录
 exclude_patterns = [
-  "dist/**",
-  "node_modules/**",
-  "coverage/**",
-  "public/**",
-  "**/*.min.js",
-  "**/*.bundle.js",
+    "dist/**",
+    "node_modules/**",
+    "coverage/**",
+    "public/**",
+    "**/*.min.js",
+    "**/*.bundle.js",
 ]
 
 # 测试文件模式 (DeepSource 会识别为测试代码，分开统计指标)
-test_patterns = [
-  "tests/**",
-  "**/*.spec.js",
-  "**/*.test.js",
-  "__tests__/**",
-]
+test_patterns = ["tests/**", "**/*.spec.js", "**/*.test.js", "__tests__/**"]
 
 # ============================================================
 # JavaScript / Vue 分析器
@@ -45,6 +40,15 @@ enabled = true
   eslint_config_file = ".eslintrc.js"
   # 环境声明
   environment = ["browser", "es6", "node"]
+[analyzers.meta]
+# 依赖文件路径 (用于检测过时/有漏洞的依赖)
+dependency_file_paths = ["package.json"]
+# 启用 Vue.js 框架支持 (可选值: vue, react, ember, meteor, angular)
+plugins = ["vue"]
+# 环境声明 (browser / node 等)
+environment = ["browser", "nodejs", "jest"]
+# 类型方言 (仅在使用 TypeScript 或 Flow 时设置)
+# dialect = "typescript"
 
 # ============================================================
 # 测试覆盖率 (Test Coverage)
@@ -54,6 +58,8 @@ enabled = true
 [[analyzers]]
 name = "test-coverage"
 enabled = true
+# test-coverage 分析器无 meta 配置项
+# 通过 CI 上报 lcov/cobertura 等格式的覆盖率数据即可
 
 # ============================================================
 # Secrets 检测分析器
@@ -77,3 +83,6 @@ enabled = true
 [[transformers]]
 name = "prettier"
 enabled = true
+
+# 注意: DeepSource 的 JS/TS 转换器仅支持 prettier
+# eslint 不是受支持的 transformer，已移除
