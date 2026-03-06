@@ -28,18 +28,12 @@ name = "javascript"
 enabled = true
 
   [analyzers.meta]
-  # 运行时环境
-  runtime_version = "18.x"
-  # 单行最大长度
-  max_line_length = 120
   # 依赖文件路径 (用于检测过时/有漏洞的依赖)
   dependency_file_paths = ["package.json"]
-  # 启用 Vue.js 框架支持
+  # 启用 Vue.js 框架支持 (可选: vue, react, ember, angular, meteor)
   plugins = ["vue"]
-  # ESLint 配置文件路径 (DeepSource 会读取 ESLint 规则)
-  eslint_config_file = ".eslintrc.js"
-  # 环境声明
-  environment = ['nodejs', 'browser', 'jest']
+  # 环境声明 (可选: nodejs, browser, jest, mocha, jasmine 等)
+  environment = ["nodejs", "browser", "jest"]
 
 # ============================================================
 # 测试覆盖率 (Test Coverage)
