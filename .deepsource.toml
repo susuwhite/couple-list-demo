@@ -39,7 +39,7 @@ enabled = true
   # ESLint 配置文件路径 (DeepSource 会读取 ESLint 规则)
   eslint_config_file = ".eslintrc.js"
   # 环境声明
-  environment = ["browser", "es6", "node"]
+  environment = ['nodejs', 'browser', 'jest']
 
 # ============================================================
 # 测试覆盖率 (Test Coverage)
